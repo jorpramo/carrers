@@ -1,14 +1,5 @@
-# install.packages("ggmap")
-# install.packages("RODBC")
-# install.packages("rworldmap")
-# install.packages("igraph")
-#install.packages("reshape")
-
 library(reshape)
-library(ggmap)
-library("RODBC")
-#prueba
-library(rworldmap)
+
 library(RODBC)
 library(stringr)
 library(igraph)
@@ -16,11 +7,9 @@ library(plyr)
 library(doBy)
 
 
-#setwd('E:/PYPROYECTOS/CALLES2/R/DATOS')
-setwd('C:/PYPROYECTOS/CALLES/R/DATOS')
-
 myconn <-odbcConnect("CARRERS", uid="loginR", pwd="loginR")
-
+municipiosall <- sqlQuery(myconn, "SELECT * FROM [CARRERS].[dbo].[MUNICIPIOS]")
+municipiosall[municipiosall$NOMBRE=="Andilla",]
 municipios <- sqlQuery(myconn, "SELECT CPRO,CMUN, NOMBRE FROM [CARRERS].[dbo].[MUNICIPIOS] where nombre in ('Valencia','Madrid','Barcelona','Sevilla','Bilbao')")
 municipios$CMUN<-str_pad(municipios$CMUN,3,pad = "0")
 municipios$CPRO<-str_pad(municipios$CPRO,2,pad = "0")
@@ -38,9 +27,9 @@ total_fuera<-data.frame(tipo=character(), nombre=character(),latitud=numeric(),l
 
 #hacia fuera, calles en la capital con nombre de poblaci?n
 for (i in 1:nrow(municipios)) {
-  nombre=as.character(municipios[i,]$NOMBRE)
-  datos <- sqlQuery(myconn, paste("SELECT '",nombre,"' as ciudad,[TVIA],[NVIA]  , Latitud, longitud, com.NOMBRE    FROM [CARRERS].[dbo].[VIAS] v join CARRERS.dbo.MUNICIPIOS m on NVIA=NOMBRE
-                   join carrers.dbo.COMUNIDAD_PROVINCIA com on com.CPRO=m.cpro  where v.cmum='",municipios[i,]$CMUN,"' and v.CPRO='",municipios[i,]$CPRO,"'", sep=""))
+  nombre=as.character(municipios[1,]$NOMBRE)
+  datos <- sqlQuery(myconn, paste("SELECT '",nombre,"' as ciudad, nvia,m.latitud, m.longitud, com.NOMBRE as nombre    FROM [CARRERS].[dbo].[VIAS] v join CARRERS.dbo.MUNICIPIOS m on NVIA=NOMBRE
+                   join carrers.dbo.COMUNIDAD_PROVINCIA com on com.CPRO=m.cpro  where v.cmum='",municipios[1,]$CMUN,"' and v.CPRO='",municipios[1,]$CPRO,"'", sep=""))
   total_fuera<-rbind(total_fuera, datos)
 }  
 

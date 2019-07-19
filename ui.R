@@ -7,27 +7,28 @@
 #    http://shiny.rstudio.com/
 #
 
-library(shiny)
 
-# Define UI for application that draws a histogram
-shinyUI(fluidPage(
-  
-  # Application title
-  titlePanel("Old Faithful Geyser Data"),
-  
-  # Sidebar with a slider input for number of bins 
-  sidebarLayout(
-    sidebarPanel(
-       sliderInput("bins",
-                   "Number of bins:",
-                   min = 1,
-                   max = 50,
-                   value = 30)
-    ),
-    
-    # Show a plot of the generated distribution
-    mainPanel(
-       plotOutput("distPlot")
-    )
+library(markdown)
+library(leaflet)
+
+
+source("./bbdd.R")
+municipios<-dame_municipios()
+
+
+pageWithSidebar(
+  headerPanel('Carrers'),
+  sidebarPanel(
+    selectInput("municipio", "Selecciona el municipio",
+                choices=municipios$NOMBRE),
+    radioButtons("tipo", "Representación:",
+                 c("Normal","Término Municipal"))
+  ),
+  mainPanel(
+    h1("Las ciudades hacia fuera"),
+    h3("Como las ciudades se han proyectado hacia fuera. Nombres de calles que coinciden con municipios"),
+    #h3(paste("Ciudad:",textOutput("municipio"),sep="")),
+    h3(textOutput("municipio")),
+    leafletOutput('mapa',height = "600px")
   )
-))
+)
