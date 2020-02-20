@@ -10,7 +10,7 @@
 
 library(markdown)
 library(leaflet)
-
+library(shiny)
 
 source("./bbdd.R")
 municipios<-dame_municipios()
@@ -32,3 +32,6 @@ pageWithSidebar(
     leafletOutput('mapa',height = "600px")
   )
 )
+
+
+
