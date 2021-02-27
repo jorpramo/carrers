@@ -1,0 +1,15 @@
+ El volumen de la unidad C es Acer
+ El n£mero de serie del volumen es: 88FC-388A
+
+ Directorio de C:\Users\Jorge\carrers
+
+27/02/2021  08:11    <DIR>          .
+27/02/2021  08:11    <DIR>          ..
+27/02/2021  08:10               858 bbdd.R
+27/02/2021  08:11                 0 listado.txt
+27/02/2021  08:10             7.415 MAPAS.R
+27/02/2021  08:10        51.412.744 municipios.shp
+27/02/2021  08:10             2.017 server.R
+27/02/2021  08:10               928 ui.R
+               6 archivos     51.423.962 bytes
+               2 dirs  22.908.669.952 bytes libres
